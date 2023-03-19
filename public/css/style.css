@@ -1,0 +1,13 @@
+h1 {
+    text-align: center;
+    color: steelblue;
+}
+
+hr {
+    margin: 0 auto;
+}
+
+.img-max {
+    max-width: 400px;
+    max-height: 400px;
+}
