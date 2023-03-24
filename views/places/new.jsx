@@ -25,7 +25,7 @@ function New() {
                                 className="form-control" 
                                 id="pic" 
                                 name="pic" 
-                                type="url" />
+                                type="text" />
                         </div>
 
                         <div className="form-group col-sm-6">
@@ -55,6 +55,16 @@ function New() {
                                 type="text" 
                                 required />
                         </div>
+
+                        <div className="form-group col-sm-6">
+                            <label htmlFor="founded">Year Founded</label>
+                            <input 
+                                className="form-control" 
+                                id="founded" 
+                                name="founded"
+                                type="text" />
+                        </div>
+
                         <br/>
                     </div>
                     <input className="btn btn-primary" type="submit" value="Add Place" />

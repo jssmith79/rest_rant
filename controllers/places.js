@@ -1,59 +1,63 @@
 const router = require('express').Router()
-let places = require('../models/places')
+let db = require('../models')
 
 router.get('/new', (req, res) => {
     res.render('places/new')
 })
 
 router.get('/:id/edit', (req, res) => {
-    let id = Number(req.params.id)
-    if (isNaN(id) || !places[id]) {
-        res.render('error404')
-    }
-    res.render('places/edit', { place: places[id], id })
+    db.place_schema.findById(req.params.id)
+        .then((place) => { res.render('places/edit', { place }) })
+        .catch((err) => {
+            console.log(err)
+            res.render('error404')
+        })    
 })
 
 router.get('/:id', (req, res) => {
-    let id = Number(req.params.id)
-    if (isNaN(id) || !places[id]) {
-        res.render('error404')
-    }
-    res.render('places/show', { place: places[id], id })
+    db.place_schema.findById(req.params.id)
+        .then((place) => { res.render('places/show', { place }) })
+        .catch((err) => {
+            console.log(err)
+            res.render('error404')
+        })
 })
 
 router.delete('/:id', (req, res) => {
-    let id = Number(req.params.id)
-    if (isNaN(id) || !places[id]) {
-        res.render('error404')
-    }
-    places.splice(id, 1)
-    res.redirect('/places')
+    db.place_schema.findByIdAndDelete(String(req.params.id))
+        .then(() => { res.redirect('/places') })
+        .catch((err) => {
+            console.log(err)
+            res.render('error404')
+        })
 })
 
 router.put('/:id', (req, res) => {
-    let id = Number(req.params.id)
-    if (isNaN(id) || !places[id]) {
-        res.render('error404')
-    }
-
-    req.body.pic = req.body.pic || '/images/default_food.jpg'
-    req.body.city = req.body.city || 'Anytown'
-    req.body.state = req.body.state || 'USA'
-    places[id] = req.body
-    res.redirect(`/places/${id}`)
+    db.place_schema.findByIdAndUpdate(String(req.params.id), req.body)
+        .then(() => { res.redirect(`/places/${req.params.id}`) })
+        .catch((err) => {
+            console.log(err)
+            res.render('error404')
+        })
+    
 })
 
 router.get('/', (req, res) => {
-    res.render('places/index', { places })
+    db.place_schema.find()
+        .then((places) => { res.render('places/index', { places }) })
+        .catch((err) => {
+            console.log(err)
+            res.render('error404')
+        })
 })
 
 router.post('/', (req, res) => {
-    req.body.pic = req.body.pic || '/images/default_food.jpg'
-    req.body.city = req.body.city || 'Anytown'
-    req.body.state = req.body.state || 'USA'
-
-    places.push(req.body)
-    res.redirect('/places')
+    db.place_schema.create(req.body)
+        .then(() => { res.redirect('/places') })
+        .catch((err) => {
+            console.log(err)
+            res.render('error404')
+        })
 })
 
 module.exports = router
