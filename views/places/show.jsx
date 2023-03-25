@@ -11,9 +11,17 @@ function Show(data) {
                         <img src={data.place.pic} alt={data.place.name} className="img-max" />                    
                     </div>
 
-                    <div className="col-sm-3">
+                    <div className="col-sm-6">
+                        <div className="row">
+                            <h3>Description</h3>
+                            <p className="text-center">
+                                <br />
+                                {data.place.showEstablished()}
+                                <br />
+                            </p>
+                        </div>
                         <h3>Ratings</h3>
-                        <h3>Description</h3>
+                        
                         <h4>Comments</h4>
                     </div>
                 </div>

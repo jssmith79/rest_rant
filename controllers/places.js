@@ -1,6 +1,16 @@
 const router = require('express').Router()
 let db = require('../models')
 
+
+router.get('/data/destroy', (req, res) => {
+    db.place_schema.deleteMany()
+        .then(() => { res.render('places/index', {  }) })
+        .catch((err) => {
+            console.log(err)
+            res.render('error404')
+        })
+})
+
 router.get('/new', (req, res) => {
     res.render('places/new')
 })
@@ -55,7 +65,15 @@ router.post('/', (req, res) => {
     db.place_schema.create(req.body)
         .then(() => { res.redirect('/places') })
         .catch((err) => {
-            console.log(err)
+            if (err.name === 'ValidationError') {
+                let message = "Validation Error: "
+                for (var field in err.errors) {
+                    message += `${field} was ${err.errors[field].value} - `
+                    message += `${err.errors[field].message}`
+                }
+                console.log("Validation Error Message", message)
+                res.render('places/new', { message })
+            }
             res.render('error404')
         })
 })

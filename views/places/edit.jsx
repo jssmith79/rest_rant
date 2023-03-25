@@ -60,6 +60,16 @@ function Edit(data) {
                                 required 
                                 value={data.place.cuisines}/>
                         </div>
+
+                        <div className="form-group col-sm-6">
+                            <label htmlFor="founded">Year Founded</label>
+                            <input 
+                                className="form-control" 
+                                id="founded" 
+                                name="founded"
+                                type="number"
+                                value={data.place.founded} />
+                        </div>
                         <br />
                     </div>
                     <br/>

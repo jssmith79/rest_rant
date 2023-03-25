@@ -6,8 +6,16 @@ const place_schema = new mongoose.Schema({
     cuisines: { type: String, required: true },
     city:     { type: String, default: 'Anytown' },
     state:    { type: String, default: 'USA' },
-    founder:  Number,
+    founded:  { 
+        type: Number, 
+        min: [1673, "Surely not that old..."],
+        max: [new Date().getFullYear(), "Can't be in the future!"]
+    }
 })
+
+place_schema.methods.showEstablished = function() {
+    return `${this.name}, serving ${this.city}, ${this.state} ${this.cuisines} since ${this.founded}`
+}
 
 module.exports = mongoose.model('place_schema', place_schema)
 
