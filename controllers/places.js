@@ -24,18 +24,54 @@ router.get('/:id/edit', (req, res) => {
         })    
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id/comment', (req, res) => {
     db.place_schema.findById(req.params.id)
-        .populate('comments')
-        .then(place=> { 
-            console.log(place.comments)
-            res.render('places/show', { place }) 
+        .then((place) => { res.render('places/comment', { place }) })
+        .catch((err) => {
+            console.log(err)
+            res.render('error404')
+        })    
+})
+
+router.post('/:id/comment', (req, res) => {
+    req.body.rant = req.body.rant === "on"
+    console.log(req.body)
+
+    db.place_schema.findById(req.params.id)
+        .then((place) => {
+            db.comment_schema.create(req.body)
+                .then((comment) => {
+                    place.comments.push(comment.id)
+                    place.save()
+                        .then(() => {
+                            res.redirect(`/places/${req.params.id}`)
+                        })
+                })
+                .catch((err) => {
+                    console.log(err)
+                    res.render('error404')
+                })
         })
         .catch((err) => {
             console.log(err)
             res.render('error404')
         })
 })
+
+
+router.get('/:id', (req, res) => {
+    db.place_schema.findById(req.params.id)
+        .populate('comments')
+        .then((place) => { 
+            res.render('places/show', { place })
+        })
+        .catch((err) => {
+            console.log(err)
+            res.render('error404')
+        })
+})
+
+
 
 router.delete('/:id', (req, res) => {
     db.place_schema.findByIdAndDelete(String(req.params.id))
@@ -81,5 +117,18 @@ router.post('/', (req, res) => {
             res.render('error404')
         })
 })
+
+router.post('/:id/comment', (req, res) => {
+    console.log(req.body)
+    if (req.body.rant){
+        req.body.rant = true
+    }
+    else {
+        req.body.rant = false
+    }
+    res.send('GET /places/:id/comment stub')
+})
+
+
 
 module.exports = router
