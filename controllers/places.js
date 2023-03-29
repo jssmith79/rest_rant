@@ -58,7 +58,7 @@ router.post('/:id/comment', (req, res) => {
         })
 })
 
-
+//show page
 router.get('/:id', (req, res) => {
     db.place_schema.findById(req.params.id)
         .populate('comments')
