@@ -43,18 +43,18 @@ function Show(data) {
                 </div>
 
                 <div className="row">
-<div className="col-sm">
+                <div className="col-sm">
                         <img src={data.place.pic} alt={data.place.name} className="img-max" />                    
                     </div>
- <div className="col-sm">
+                    <div className="col-sm">
                         <div className="row">
                             <h3>Description</h3>
-<p className="text-center bigger-font">
+                    <p className="text-center bigger-font">
                                 {data.place.showEstablished()}
                                 <br />
                             </p>
                         </div>
-<div className="row">
+                    <div className="row">
                             <h3>Ratings</h3>
                         </div>
 
