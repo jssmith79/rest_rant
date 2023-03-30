@@ -15,6 +15,8 @@ router.get('/new', (req, res) => {
     res.render('places/new')
 })
 
+//edit route
+
 router.get('/:id/edit', (req, res) => {
     db.place_schema.findById(req.params.id)
         .then((place) => { res.render('places/edit', { place }) })
@@ -71,7 +73,7 @@ router.get('/:id', (req, res) => {
         })
 })
 
-
+//delete route
 
 router.delete('/:id', (req, res) => {
     db.place_schema.findByIdAndDelete(String(req.params.id))
@@ -81,6 +83,9 @@ router.delete('/:id', (req, res) => {
             res.render('error404')
         })
 })
+
+
+//edit route
 
 router.put('/:id', (req, res) => {
     db.place_schema.findByIdAndUpdate(String(req.params.id), req.body)
