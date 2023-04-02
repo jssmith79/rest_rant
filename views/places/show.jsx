@@ -20,7 +20,7 @@ function Show(data) {
             let averageRating = Math.round(sumRatings/data.place.comments.length) 
             let stars = ''
             for (let i = 0; i< averageRating; i++) {
-                stars += 'â­ï¸'
+                stars += '⭐'
             }
 
 
